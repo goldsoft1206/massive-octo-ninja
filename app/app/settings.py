@@ -88,6 +88,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
 
 # TEMPLATE_CONTEXT_PROCESSORS
 # https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-TEMPLATE_CONTEXT_PROCESSORS
@@ -102,6 +106,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
     "allauth.account.context_processors.account",
+)
+
+# TEMPLATE_DIRS
+# https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-TEMPLATE_DIRS
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates'),
 )
 
 # AUTHENTICATION_BACKENDS
