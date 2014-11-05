@@ -35,7 +35,7 @@
                 <ul class="nav navbar-nav">
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'home' %}">Home</a></li>
-                    <li><a href="{% url 'home' %}">Profile</a></li>
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
                     <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
                     {% else %}
                     <li><a href="{% url 'account_login' %}">Sign In</a></li>
