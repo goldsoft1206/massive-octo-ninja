@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% load i18n bootstrap3 %}
+{% load i18n bootstrap3 static %}
 
 {% block title %}Profile{% endblock %}
 
@@ -67,7 +67,16 @@
   		<h1>{% trans "Audios" %}</h1>
 
 		{% if audios %}
-		<table class="table">
+		<audio controls id="audioControl">
+  			<source src="" type="audio/ogg" id="audioSource">
+		</audio>
+		<br/>
+		<p id="audioDescription"></p>
+		<button class="btn btn-sm btn-default" onClick="backAudio()">Back</button>
+  		<button class="btn btn-sm btn-default" onClick="forwardAudio()">Forward</button>
+
+  		<br/><br/>
+		<table class="table" id="audioTable">
 			<tr>
 				<th>#</th>
 				<th>Name</th>
@@ -78,7 +87,7 @@
 			{% for audio in audios %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
-				<td><a href="{{ MEDIA_URL }}{{ audio.upload }}">{{ audio.filename }}</a></td>
+				<td><a href="{{ MEDIA_URL }}{{ audio.upload }}" class="audioFile" data-description="{{ audio.description }}" data-name="{{ audio.filename }}">{{ audio.filename }}</a></td>
 				<td>{{ audio.description }}</td>
 				<td>{{ audio.upload_dt }}</td>
 				<td><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=audio.pk %}">Remove</a></td>
@@ -105,10 +114,20 @@
   		<h1>{% trans "Video" %}</h1>
 
 		{% if videos %}
+			<video controls width='50%' height='40%' id="videoControl">
+  				<source src="{{ MEDIA_URL }}{{ video.upload }}" type="video/mp4" id="videoSource"></source>
+			</video>
+			<br/>
+			<p id="videoDescription"></p>
+			<button class="btn btn-sm btn-default" onClick="backVideo()">Back</button>
+	  		<button class="btn btn-sm btn-default" onClick="forwardVideo()">Forward</button>
+
+	  		<br/><br/>
+
 			{% for video in videos %}
 				<p>{{ video.filename }}</p>
 				<video controls width='50%' height='40%'>
-					<source src="{{ MEDIA_URL }}{{ video.upload }}" type="video/mp4"></source>
+					<source src="{{ MEDIA_URL }}{{ video.upload }}" type="video/mp4" class="videoFile" data-description="{{ video.description }}" data-name="{{ video.filename }}"></source>
 				</video>
 				<br/>
 				<p>{{ video.description }}</p>
@@ -135,4 +154,76 @@
   	</div>
 </div>
 
+{% endblock %}
+
+{% block custom_js %}
+<script>
+var audioFiles = new Array();
+$('#audioTable .audioFile').each(function(){
+	audioFiles.push({
+		'path':$(this).attr('href'),
+		'filename': $(this).data('name'),
+		'description': $(this).data('description'),
+	});
+});
+var audioIndex = 0;
+var audioCounts = audioFiles.length;
+
+function setAudio() {
+	$("#audioSource").attr('src', audioFiles[audioIndex]['path']);
+	$("#audioDescription").html(audioFiles[audioIndex]['filename'] + "  (" + audioFiles[audioIndex]['description'] + ")");
+	$("#audioControl").trigger('load');
+}
+
+$(document).ready( function(){	
+	setAudio();
+})
+
+function backAudio() {
+	audioIndex = audioIndex + audioCounts - 1;
+	audioIndex = audioIndex % audioCounts;
+	setAudio();
+}
+
+function forwardAudio() {
+	audioIndex = audioIndex + 1;
+	audioIndex = audioIndex % audioCounts;
+	setAudio();
+}
+</script>
+
+<script>
+var videoFiles = new Array();
+$('#videos .videoFile').each(function(){
+	videoFiles.push({
+		'path':$(this).attr('src'),
+		'filename': $(this).data('name'),
+		'description': $(this).data('description'),
+	});
+});
+var videoIndex = 0;
+var videoCounts = videoFiles.length;
+
+function setVideo() {
+	$("#videoSource").attr('src', videoFiles[videoIndex]['path']);
+	$("#videoDescription").html(videoFiles[videoIndex]['filename'] + "  (" + videoFiles[videoIndex]['description'] + ")");
+	$("#videoControl").trigger('load');
+}
+
+$(document).ready( function(){	
+	setVideo();
+})
+
+function backVideo() {
+	videoIndex = videoIndex + videoCounts - 1;
+	videoIndex = videoIndex % videoCounts;
+	setVideo();
+}
+
+function forwardVideo() {
+	videoIndex = videoIndex + 1;
+	videoIndex = videoIndex % videoCounts;
+	setVideo();
+}
+</script>
 {% endblock %}
