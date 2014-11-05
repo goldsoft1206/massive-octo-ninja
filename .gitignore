@@ -1,2 +1,6 @@
 *.pyc
 local_settings.py
+
+#ignore local sqlite3 db
+*.db
+
