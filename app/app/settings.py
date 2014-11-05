@@ -124,6 +124,13 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+# django-allauth settings
+# http://django-allauth.readthedocs.org/en/latest/configuration.html
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_URL = '/'
 
 try:
     from local_settings import *
