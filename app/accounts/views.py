@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import FormView, DeleteView
+from django.views.generic import FormView, DeleteView, DetailView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
@@ -61,4 +61,9 @@ class RemoveUploadView(DeleteView):
     model = UploadedFile
     success_url = '/profile'
     template_name = 'confirm_delete.html'
+
+
+class ImageView(DetailView):
+    model = UploadedFile
+    template_name = 'image.html'
 

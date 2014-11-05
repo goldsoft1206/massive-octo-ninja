@@ -1,0 +1,9 @@
+{% load static %}
+<html lang="en">
+<head>
+	<title>{{ object.filename }}</title>
+</head>	
+<body>
+	<img src="{{ MEDIA_URL }}{{ object.upload }}" height="600" width="600" />
+</body>
+</html>
