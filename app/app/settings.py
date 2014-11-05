@@ -94,6 +94,12 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = (
+    os.path.join(BASE_DIR, 'media')
+)
+
 
 # TEMPLATE_CONTEXT_PROCESSORS
 # https://docs.djangoproject.com/en/1.7/ref/settings/#std:setting-TEMPLATE_CONTEXT_PROCESSORS
