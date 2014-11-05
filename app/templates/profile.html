@@ -14,37 +14,55 @@
 	<button class="btn btn-primary" type="submit">Update</button>
 </form>
 
-<h1>{% trans "Pictures" %}</h1>
+<br/>
 
-{% if pictures %}
-<table class="table">
-	<tr>
-		<th>#</th>
-		<th>Name</th>
-		<th>Date</th>
-		<th></th>
-	</th>
-	{% for picture in pictures %}
-	<tr>
-		<th>{{ forloop.counter }}</th>
-		<th><a href="{{ MEDIA_URL }}{{ picture.upload }}">{{ picture.filename }}</a></th>
-		<th>{{ picture.upload_dt }}</th>
-		<th><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=picture.pk %}">Remove</a></th>
-	</th>
-	{% endfor %}
-</table>
-{% endif %}
-<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
-	{% csrf_token %}
-	<input type="hidden" name="user" value="{{request.user.pk}}">
-	<input type="hidden" name="file_type" value="P">
-	<div class="form-group">
-    	<label for="uploadFile">Picture</label>
-    	<input type="file" id="uploadFile" name="upload">
-    	<p class="help-block">Please upload picture files</p>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" role="tablist">
+  	<li role="presentation" class="active"><a href="#pictures" role="tab" data-toggle="tab">Pictures</a></li>
+  	<li role="presentation"><a href="#audios" role="tab" data-toggle="tab">Audios</a></li>
+  	<li role="presentation"><a href="#videos" role="tab" data-toggle="tab">Videos</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  	<div role="tabpanel" class="tab-pane active" id="pictures">
+  		<h1>{% trans "Pictures" %}</h1>
+
+		{% if pictures %}
+		<table class="table">
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Date</th>
+				<th></th>
+			</th>
+			{% for picture in pictures %}
+			<tr>
+				<th>{{ forloop.counter }}</th>
+				<th><a href="{{ MEDIA_URL }}{{ picture.upload }}">{{ picture.filename }}</a></th>
+				<th>{{ picture.upload_dt }}</th>
+				<th><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=picture.pk %}">Remove</a></th>
+			</th>
+			{% endfor %}
+		</table>
+		{% endif %}
+		<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="hidden" name="user" value="{{request.user.pk}}">
+			<input type="hidden" name="file_type" value="P">
+			<div class="form-group">
+		    	<label for="uploadFile">Picture</label>
+		    	<input type="file" id="uploadFile" name="upload">
+		    	<p class="help-block">Please upload picture files</p>
+		  	</div>
+		  	<button type="submit" class="btn btn-primary">Upload</button>
+		</form>
   	</div>
-  	<button type="submit" class="btn btn-primary">Upload</button>
-</form>
+  	<div role="tabpanel" class="tab-pane" id="audios">...</div>
+  	<div role="tabpanel" class="tab-pane" id="videos">...</div>
+</div>
+
+
 
 
 {% endblock %}
