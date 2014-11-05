@@ -27,7 +27,7 @@
 	{% for picture in pictures %}
 	<tr>
 		<th>{{ forloop.counter }}</th>
-		<th>{{ picture.filename }}</th>
+		<th><a href="{{ MEDIA_URL }}{{ picture.upload }}">{{ picture.filename }}</a></th>
 		<th>{{ picture.upload_dt }}</th>
 		<th><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=picture.pk %}">Remove</a></th>
 	</th>
