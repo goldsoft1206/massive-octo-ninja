@@ -6,7 +6,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from accounts.forms import ProfileForm, UploadForm
-from accounts.forms import UploadedFile
+from accounts.models import UploadedFile, Profile
+
 
 
 class ProfileView(FormView):
@@ -29,8 +30,12 @@ class ProfileView(FormView):
         return {'title': title}
 
     def form_valid(self, form):
-        self.request.user.profile.title = form.cleaned_data['title']
-        self.request.user.profile.save()
+        try:
+            self.request.user.profile.title = form.cleaned_data['title']
+            self.request.user.profile.save()
+        except:
+            profile = Profile(user=self.request.user, title=form.cleaned_data['title'])
+            profile.save()
         return super(ProfileView, self).form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -42,7 +47,6 @@ class ProfileView(FormView):
 
 
 def upload_file(request):
-    print request.POST, request.FILES
     if request.method == 'POST':
         form = UploadForm(request.POST, request.FILES)
         if form.is_valid():

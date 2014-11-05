@@ -23,6 +23,7 @@ class UploadedFile(models.Model):
     user = models.ForeignKey(User, related_name="files")
     file_type = models.CharField(max_length=1, choices=FILETYPE_CHOICES, default='P')
     upload = models.FileField(upload_to=upload_path)
+    description = models.CharField(max_length=100, null=True, blank=True)
     upload_dt = models.DateTimeField(auto_now_add=True)
 
     def filename(self):

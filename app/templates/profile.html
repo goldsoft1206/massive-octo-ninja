@@ -33,15 +33,17 @@
 			<tr>
 				<th>#</th>
 				<th>Name</th>
+				<th>Description</th>
 				<th>Date</th>
 				<th></th>
 			</th>
 			{% for picture in pictures %}
 			<tr>
-				<th>{{ forloop.counter }}</th>
-				<th><a href="{{ MEDIA_URL }}{{ picture.upload }}">{{ picture.filename }}</a></th>
-				<th>{{ picture.upload_dt }}</th>
-				<th><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=picture.pk %}">Remove</a></th>
+				<td>{{ forloop.counter }}</td>
+				<td><a href="{{ MEDIA_URL }}{{ picture.upload }}">{{ picture.filename }}</a></td>
+				<td>{{ picture.description }}</td>
+				<td>{{ picture.upload_dt }}</td>
+				<td><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=picture.pk %}">Remove</a></td>
 			</th>
 			{% endfor %}
 		</table>
@@ -54,6 +56,8 @@
 		    	<label for="uploadFile">Picture</label>
 		    	<input type="file" id="uploadFile" name="upload">
 		    	<p class="help-block">Please upload picture file</p>
+		    	<label for="description">Description</label>
+		    	<input type="text" name="description" id="description"/>
 		  	</div>
 		  	<button type="submit" class="btn btn-primary">Upload</button>
 		</form>
@@ -67,15 +71,17 @@
 			<tr>
 				<th>#</th>
 				<th>Name</th>
+				<th>Description</th>
 				<th>Date</th>
 				<th></th>
 			</th>
 			{% for audio in audios %}
 			<tr>
-				<th>{{ forloop.counter }}</th>
-				<th><a href="{{ MEDIA_URL }}{{ audio.upload }}">{{ audio.filename }}</a></th>
-				<th>{{ audio.upload_dt }}</th>
-				<th><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=audio.pk %}">Remove</a></th>
+				<td>{{ forloop.counter }}</td>
+				<td><a href="{{ MEDIA_URL }}{{ audio.upload }}">{{ audio.filename }}</a></td>
+				<td>{{ audio.description }}</td>
+				<td>{{ audio.upload_dt }}</td>
+				<td><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=audio.pk %}">Remove</a></td>
 			</th>
 			{% endfor %}
 		</table>
@@ -88,6 +94,8 @@
 		    	<label for="uploadFile">Audio</label>
 		    	<input type="file" id="uploadFile" name="upload">
 		    	<p class="help-block">Please upload Audio file</p>
+		    	<label for="description">Description</label>
+		    	<input type="text" name="description" id="description"/>
 		  	</div>
 		  	<button type="submit" class="btn btn-primary">Upload</button>
 		</form>
@@ -103,6 +111,7 @@
 					<source src="{{ MEDIA_URL }}{{ video.upload }}" type="video/mp4"></source>
 				</video>
 				<br/>
+				<p>{{ video.description }}</p>
 				<a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=video.pk %}">Remove</a>
 				<br/><br/>
 			{% endfor %}
@@ -118,6 +127,8 @@
 		    	<label for="uploadFile">Video</label>
 		    	<input type="file" id="uploadFile" name="upload">
 		    	<p class="help-block">Please upload Video file</p>
+		    	<label for="description">Description</label>
+		    	<input type="text" name="description" id="description"/>
 		  	</div>
 		  	<button type="submit" class="btn btn-primary">Upload</button>
 		</form>
