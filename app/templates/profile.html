@@ -53,16 +53,75 @@
 			<div class="form-group">
 		    	<label for="uploadFile">Picture</label>
 		    	<input type="file" id="uploadFile" name="upload">
-		    	<p class="help-block">Please upload picture files</p>
+		    	<p class="help-block">Please upload picture file</p>
 		  	</div>
 		  	<button type="submit" class="btn btn-primary">Upload</button>
 		</form>
   	</div>
-  	<div role="tabpanel" class="tab-pane" id="audios">...</div>
-  	<div role="tabpanel" class="tab-pane" id="videos">...</div>
+
+  	<div role="tabpanel" class="tab-pane" id="audios">
+  		<h1>{% trans "Audios" %}</h1>
+
+		{% if audios %}
+		<table class="table">
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Date</th>
+				<th></th>
+			</th>
+			{% for audio in audios %}
+			<tr>
+				<th>{{ forloop.counter }}</th>
+				<th><a href="{{ MEDIA_URL }}{{ audio.upload }}">{{ audio.filename }}</a></th>
+				<th>{{ audio.upload_dt }}</th>
+				<th><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=audio.pk %}">Remove</a></th>
+			</th>
+			{% endfor %}
+		</table>
+		{% endif %}
+		<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="hidden" name="user" value="{{request.user.pk}}">
+			<input type="hidden" name="file_type" value="A">
+			<div class="form-group">
+		    	<label for="uploadFile">Audio</label>
+		    	<input type="file" id="uploadFile" name="upload">
+		    	<p class="help-block">Please upload Audio file</p>
+		  	</div>
+		  	<button type="submit" class="btn btn-primary">Upload</button>
+		</form>
+  	</div>
+
+  	<div role="tabpanel" class="tab-pane" id="videos">
+  		<h1>{% trans "Video" %}</h1>
+
+		{% if videos %}
+			{% for video in videos %}
+				<p>{{ video.filename }}</p>
+				<video controls width='50%' height='40%'>
+					<source src="{{ MEDIA_URL }}{{ video.upload }}" type="video/mp4"></source>
+				</video>
+				<br/>
+				<a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=video.pk %}">Remove</a>
+				<br/><br/>
+			{% endfor %}
+		{% endif %}
+
+		<br/>
+
+		<form action="{% url 'upload' %}" method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="hidden" name="user" value="{{request.user.pk}}">
+			<input type="hidden" name="file_type" value="V">
+			<div class="form-group">
+		    	<label for="uploadFile">Video</label>
+		    	<input type="file" id="uploadFile" name="upload">
+		    	<p class="help-block">Please upload Video file</p>
+		  	</div>
+		  	<button type="submit" class="btn btn-primary">Upload</button>
+		</form>
+  	</div>
 </div>
-
-
-
 
 {% endblock %}

@@ -22,7 +22,11 @@ class ProfileView(FormView):
         return super(ProfileView, self).dispatch(*args, **kwargs)
 
     def get_initial(self):
-        return {'title':self.request.user.profile.title}
+        try:
+            title = self.request.user.profile.title
+        except:
+            title = ""
+        return {'title': title}
 
     def form_valid(self, form):
         self.request.user.profile.title = form.cleaned_data['title']
@@ -32,6 +36,8 @@ class ProfileView(FormView):
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['pictures'] = UploadedFile.objects.filter(user=self.request.user, file_type='P')
+        context['audios'] = UploadedFile.objects.filter(user=self.request.user, file_type='A')
+        context['videos'] = UploadedFile.objects.filter(user=self.request.user, file_type='V')
         return context
 
 
