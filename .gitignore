@@ -1,6 +1,8 @@
 *.pyc
 local_settings.py
 
-#ignore local sqlite3 db
+# ignore local sqlite3 db
 *.db
 
+# ignore media files
+app/media
