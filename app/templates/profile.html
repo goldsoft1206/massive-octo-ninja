@@ -29,7 +29,14 @@
   		<h1>{% trans "Pictures" %}</h1>
 
 		{% if pictures %}
-		<table class="table">
+		<img src="" height="300" width="300" id="pictureSource"/>
+		<br/>
+		<p id="pictureDescription"></p>
+		<button class="btn btn-sm btn-default" onClick="prevPicture()">Previous</button>
+  		<button class="btn btn-sm btn-default" onClick="nextPicture()">Next</button>
+  		<br/><br/>
+
+		<table class="table" id="pictureTable">
 			<tr>
 				<th>#</th>
 				<th>Name</th>
@@ -40,7 +47,7 @@
 			{% for picture in pictures %}
 			<tr>
 				<td>{{ forloop.counter }}</td>
-				<td><a href="{% url 'image_view' pk=picture.pk %}">{{ picture.filename }}</a></td>
+				<td><a href="{% url 'image_view' pk=picture.pk %}" class="pictureFile" data-name="{{ picture.filename }}" data-description="{{ picture.description }}" data-source="{{ MEDIA_URL }}{{ picture.upload }}">{{ picture.filename }}</a></td>
 				<td>{{ picture.description }}</td>
 				<td>{{ picture.upload_dt }}</td>
 				<td><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=picture.pk %}">Remove</a></td>
@@ -157,6 +164,40 @@
 {% endblock %}
 
 {% block custom_js %}
+<script>
+var pictureFiles = new Array();
+$('#pictureTable .pictureFile').each(function(){
+	pictureFiles.push({
+		'path':$(this).data('source'),
+		'filename': $(this).data('name'),
+		'description': $(this).data('description'),
+	});
+});
+var pictureIndex = 0;
+var pictureCounts = pictureFiles.length;
+
+function setPicture() {
+	$("#pictureSource").attr('src', pictureFiles[pictureIndex]['path']);
+	$("#pictureDescription").html(pictureFiles[pictureIndex]['filename'] + "  (" + pictureFiles[pictureIndex]['description'] + ")");
+}
+
+$(document).ready( function(){	
+	setPicture();
+})
+
+function prevPicture() {
+	pictureIndex = pictureIndex + pictureCounts - 1;
+	pictureIndex = pictureIndex % pictureCounts;
+	setPicture();
+}
+
+function nextPicture() {
+	pictureIndex = pictureIndex + pictureCounts + 1;
+	pictureIndex = pictureIndex % pictureCounts;
+	setPicture();
+}
+</script>
+
 <script>
 var audioFiles = new Array();
 $('#audioTable .audioFile').each(function(){
