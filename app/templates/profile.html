@@ -122,7 +122,7 @@
 
 		{% if videos %}
 			<video controls width='50%' height='40%' id="videoControl">
-  				<source src="{{ MEDIA_URL }}{{ video.upload }}" type="video/mp4" id="videoSource"></source>
+  				<source src="" type="video/mp4" id="videoSource"></source>
 			</video>
 			<br/>
 			<p id="videoDescription"></p>
@@ -131,16 +131,24 @@
 
 	  		<br/><br/>
 
-			{% for video in videos %}
-				<p>{{ video.filename }}</p>
-				<video controls width='50%' height='40%'>
-					<source src="{{ MEDIA_URL }}{{ video.upload }}" type="video/mp4" class="videoFile" data-description="{{ video.description }}" data-name="{{ video.filename }}"></source>
-				</video>
-				<br/>
-				<p>{{ video.description }}</p>
-				<a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=video.pk %}">Remove</a>
-				<br/><br/>
-			{% endfor %}
+	  		<table class="table" id="videoTable">
+				<tr>
+					<th>#</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Date</th>
+					<th></th>
+				</th>
+				{% for video in videos %}
+				<tr>
+					<td>{{ forloop.counter }}</td>
+					<td><a href="{{ MEDIA_URL }}{{ video.upload }}" class="videoFile" data-description="{{ video.description }}" data-name="{{ video.filename }}">{{ video.filename }}</a></td>
+					<td>{{ video.description }}</td>
+					<td>{{ video.upload_dt }}</td>
+					<td><a class="btn btn-danger btn-sm" href="{% url 'file_remove' pk=video.pk %}">Remove</a></td>
+				</th>
+				{% endfor %}
+			</table>
 		{% endif %}
 
 		<br/>
@@ -235,9 +243,9 @@ function forwardAudio() {
 
 <script>
 var videoFiles = new Array();
-$('#videos .videoFile').each(function(){
+$('#videoTable .videoFile').each(function(){
 	videoFiles.push({
-		'path':$(this).attr('src'),
+		'path':$(this).attr('href'),
 		'filename': $(this).data('name'),
 		'description': $(this).data('description'),
 	});
